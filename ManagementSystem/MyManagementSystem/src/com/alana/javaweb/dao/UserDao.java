@@ -1,5 +1,6 @@
-package com.alana.javaweb.service;
+package com.alana.javaweb.dao;
 
+import com.alana.javaweb.model.User;
 import com.alana.javaweb.utils.DButil;
 
 import java.sql.*;
@@ -31,6 +32,11 @@ public class UserDao {
         return count;
     }
 
+    /**
+     * 修改用户信息
+     * @param user
+     * @return
+     */
     public int update(User user) {
         Connection conn = null;
         PreparedStatement ps =null;
@@ -52,6 +58,11 @@ public class UserDao {
         return count;
     }
 
+    /**
+     *删除用户信息
+     * @param username
+     * @return
+     */
     public int deleteByUsername(String username) {
 
         Connection conn = null;
@@ -71,6 +82,12 @@ public class UserDao {
         return count;
     }
 
+
+    /**
+     * 通过username查询用户
+     * @param username
+     * @return
+     */
     public User selectByUsername(String username) {
         Connection conn = null;
         PreparedStatement ps =null;

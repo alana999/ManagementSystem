@@ -1,4 +1,4 @@
-package com.alana.javaweb.service;
+package com.alana.javaweb.model;
 
 import java.sql.Timestamp;
 

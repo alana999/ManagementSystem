@@ -120,24 +120,24 @@ public class UserDao {
 
     }
 
-    public List<User> selectAll() {
-        Connection conn = null;
-        PreparedStatement ps =null;
-        ResultSet rs = null;
-        int count =0;
-        try {
-            conn = DButil.getConnection();
-            String sql = "update  User set username = ?,password=? where user_id =?";
-            ps = conn.prepareStatement(sql);
-
-
-            count = ps.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }finally {
-            DButil.close(conn,ps,null);
-        }
-        return null;
-    }
+//    public List<User> selectAll() {
+//        Connection conn = null;
+//        PreparedStatement ps =null;
+//        ResultSet rs = null;
+//        int count =0;
+//        try {
+//            conn = DButil.getConnection();
+//            String sql = "update  User set username = ?,password=? where user_id =?";
+//            ps = conn.prepareStatement(sql);
+//
+//
+//            count = ps.executeUpdate();
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }finally {
+//            DButil.close(conn,ps,null);
+//        }
+//        return null;
+//    }
 
 }

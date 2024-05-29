@@ -42,5 +42,27 @@
         <jarDirectory url="file://$MODULE_DIR$/web/WEB-INF/lib" recursive="false" />
       </library>
     </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/web/WEB-INF/lib" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+        <jarDirectory url="file://$MODULE_DIR$/web/WEB-INF/lib" recursive="false" />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://D:/BaiduNetdiskDownload/0javanote/Web/代码/javaweb/oa3/web/WEB-INF/lib/jakarta.servlet.jsp.jstl-2.0.0.jar!/" />
+          <root url="jar://D:/BaiduNetdiskDownload/0javanote/Web/代码/javaweb/oa3/web/WEB-INF/lib/jakarta.servlet.jsp.jstl-api-2.0.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://D:/BaiduNetdiskDownload/0javanote/Web/代码/javaweb/oa3/src" />
+        </SOURCES>
+      </library>
+    </orderEntry>
   </component>
 </module>

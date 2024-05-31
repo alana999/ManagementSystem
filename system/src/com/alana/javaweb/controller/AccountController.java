@@ -24,6 +24,10 @@ public class AccountController extends HttpServlet {
             handleRegister(req, resp);
         } else if ("/logout".equals(action)) {
             handleExit(req, resp);
+        } else if("/edit".equals(action)) {
+            handleEdit(req,resp);
+        }else if("/update".equals(action)){
+            handleUpdate(req,resp);
         }
     }
 
@@ -62,4 +66,38 @@ public class AccountController extends HttpServlet {
         // 跳转到登录页面
         response.sendRedirect(request.getContextPath() + "/login.jsp");
     }
+
+
+    private void handleUpdate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int accountId = Integer.parseInt(request.getParameter("userId"));
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+//        String email = request.getParameter("email");
+
+        User account = new User();
+        account.setUserId(accountId);
+        account.setUsername(username);
+        account.setPassword(password);
+//        account.setEmail(email);
+
+        if (accountService.updateAccount(account)) {
+            response.sendRedirect("/sys/index.jsp");
+        } else {
+            request.setAttribute("error", "更新账户失败");
+            request.getRequestDispatcher("accountEdit.jsp").forward(request, response);
+        }
+    }
+
+    protected void handleEdit(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        // 获取HttpSession对象
+        HttpSession session = request.getSession();
+        // 从会话域中获取用户对象
+        User s_user = (User) session.getAttribute("user");
+        User user = accountService.getUserByUsername(s_user.getUsername());
+        request.setAttribute("user",user);
+        request.getRequestDispatcher("/userEdit.jsp").forward(request, response);
+
+    }
+
 }

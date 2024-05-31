@@ -22,7 +22,8 @@
     <a href="account/logout" class="btn btn-danger">登出</a>
   </div>
   <div class="list-group">
-    <a href="groupManagement.jsp" class="list-group-item list-group-item-action">团队管理</a>
+    <a href="account/edit" class="list-group-item list-group-item-action">账户信息修改</a>
+    <a href="group/list" class="list-group-item list-group-item-action">团队管理</a>
     <a href="memberManagement.jsp" class="list-group-item list-group-item-action">成员管理</a>
   </div>
 </div>

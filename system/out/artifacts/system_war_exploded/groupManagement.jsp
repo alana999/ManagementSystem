@@ -14,20 +14,35 @@
 </head>
 <body>
 <div>
+
+    <h5>查询团队</h5>
+    <form action="search" method="get">
+        <input type="hidden" name="action" value="search">
+        团队名：<input type="text" name="groupName" required>
+        <input type="submit" value="查询">
+    </form>
     <h1>团队列表</h1>
-    <a href="add.jsp">添加新团队</a>
+    <a href="${pageContext.request.contextPath}/add.jsp">添加新团队</a>
+
     <table border="1" width="80%" align="center">
         <tr>
+            <th>团队ID</th>
             <th>团队名</th>
             <th>描述</th>
+            <th>创建时间</th>
+            <th>更新时间</th>
             <th>操作</th>
         </tr>
         <c:forEach items="${groupList}" var="group">
             <tr>
+                <td>${group.groupId}</td>
                 <td>${group.groupName}</td>
                 <td>${group.description}</td>
+                <td>${group.createdAt}</td>
+                <td>${group.updatedAt}</td>
                 <td>
-                    <a href="edit.jsp?groupId=${group.groupId}">编辑</a>
+                    <a href="${pageContext.request.contextPath}/group/edit?groupId=${group.groupId}">编辑</a>
+
                     <a href="javascript:void(0);" onclick="confirmDelete(${group.groupId})">删除</a>
                 </td>
             </tr>
@@ -37,7 +52,7 @@
 <script type="text/javascript">
     function confirmDelete(groupId) {
         if (confirm('确定要删除这个团队吗？')) {
-            document.location.href = 'GroupController?action=delete&groupId=' + groupId;
+            document.location.href = '${pageContext.request.contextPath}/group/delete?groupId=' + groupId;
         }
     }
 </script>

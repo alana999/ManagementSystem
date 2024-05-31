@@ -22,7 +22,7 @@ public class LoginCheckFilter implements Filter {
         if (loggedIn || path.endsWith("login.jsp") || path.endsWith("register.jsp")||path.endsWith("register")||path.endsWith("login")) {
             chain.doFilter(request, response);
         } else {
-            ((HttpServletResponse) response).sendRedirect("login.jsp");
+            ((HttpServletResponse) response).sendRedirect(req.getContextPath()+"/login.jsp");
         }
     }
 }

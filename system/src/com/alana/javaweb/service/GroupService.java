@@ -3,6 +3,8 @@ package com.alana.javaweb.service;
 import com.alana.javaweb.dao.GroupDao;
 import com.alana.javaweb.model.Group;
 
+import java.util.List;
+
 public class GroupService {
     private GroupDao groupDao = new GroupDao();
 
@@ -21,6 +23,14 @@ public class GroupService {
 
     public Group getGroupById(int groupId) {
         return groupDao.selectById(groupId);
+    }
+
+
+    public Group getGroupByName(String groupName) {
+        return groupDao.selectByName(groupName);
+    }
+    public List<Group> listGroups(){
+        return groupDao.selectAll();
     }
 }
 

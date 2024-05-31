@@ -1,6 +1,7 @@
 package com.alana.javaweb.service;
 
 import com.alana.javaweb.dao.UserDao;
+import com.alana.javaweb.model.Group;
 import com.alana.javaweb.model.User;
 import com.alana.javaweb.utils.HashUtil;
 import jakarta.servlet.http.Cookie;
@@ -52,5 +53,16 @@ public class AccountService {
 
         }
     }
+
+    public User getUserByUsername(String username) {
+        return userDao.selectByUsername(username);
+    }
+
+    public boolean updateAccount(User user) {
+        String hashedPassword = HashUtil.hashPassword(user.getPassword());
+        user.setPassword(hashedPassword);
+        return userDao.update(user) > 0;
+    }
+
 }
 

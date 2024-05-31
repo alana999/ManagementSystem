@@ -22,7 +22,13 @@ public class Group {
         this.groupName = groupName;
         this.description = description;
     }
-
+    public Group(int groupId, String groupName, String description,Timestamp created_at, Timestamp updated_at) {
+        this.groupId = groupId;
+        this.groupName = groupName;
+        this.description = description;
+        this.createdAt =created_at;
+        this.updatedAt =updated_at;
+    }
     // getter 和 setter 方法
     public int getGroupId() {
         return groupId;

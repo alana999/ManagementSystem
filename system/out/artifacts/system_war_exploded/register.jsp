@@ -16,7 +16,8 @@
 <body>
 <div class="container">
     <h2>注册</h2>
-    <form action="account/register" method="post">
+
+    <form action="${pageContext.request.contextPath}/account/register" method="post">
         <div class="form-group">
             <label for="username">用户名:</label>
             <input type="text" class="form-control" id="username" name="username" required>
@@ -28,9 +29,13 @@
         <div class="form-group">
             <button type="submit" class="btn btn-primary">注册</button>
         </div>
+
+        <% if (request.getAttribute("error") != null) { %>
+        <p style="color: red;"><%= request.getAttribute("error") %></p>
+        <% } %>
     </form>
     <div class="text-center">
-        已有账号? <a href="login.jsp">登录</a>
+        已有账号? <a href="${pageContext.request.contextPath}/login.jsp">登录</a>
     </div>
 </div>
 </body>

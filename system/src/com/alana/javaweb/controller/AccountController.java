@@ -1,5 +1,6 @@
 package com.alana.javaweb.controller;
 
+import com.alana.javaweb.exception.BusinessException;
 import com.alana.javaweb.model.User;
 import com.alana.javaweb.service.AccountService;
 import com.google.gson.Gson;
@@ -49,8 +50,18 @@ public class AccountController extends HttpServlet {
 
         String username = req.getParameter("username");
         String password = req.getParameter("password");
-        accountService.register(username, password);
-        resp.sendRedirect(req.getContextPath() + "/login.jsp");
+        try {
+            if ( accountService.register(username, password)) {
+                resp.sendRedirect(req.getContextPath() + "/login.jsp"); // 成功注册就重定向到登录页面
+            }
+        } catch (BusinessException e) {
+            // 处理业务异常，显示错误信息
+            req.setAttribute("error", e.getMessage());
+            // 转发（不要重定向）
+
+            req.getRequestDispatcher("/register.jsp").forward(req, resp); // 重新展示注册页面
+        };
+
 
     }
 

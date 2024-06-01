@@ -155,4 +155,35 @@ public class MemberDao {
         return memberList;
 
     }
+
+    public List<Member> selectByGroupId(int groupId){
+        List<Member> memberList = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DButil.getConnection();
+            String sql = "SELECT member_id, name, group_id , join_time, updated_at FROM members where group_id = ?";
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1,groupId);
+            rs = ps.executeQuery();
+            // 遍历结果集
+            while (rs.next()) {
+                Member member = new Member();
+                member.setMemberId(rs.getInt("member_id"));
+                member.setName(rs.getString("name"));
+                member.setGroupId(rs.getInt("group_id"));
+                member.setJoinTime(rs.getTimestamp("join_time"));
+                member.setUpdatedAt(rs.getTimestamp("updated_at"));
+                // 将对象放到list集合当中
+                memberList.add(member);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            DButil.close(conn, ps, null);
+        }
+        return memberList;
+    }
 }

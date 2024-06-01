@@ -11,7 +11,10 @@
     <title>编辑成员</title>
 </head>
 <body>
-<form action="update" method="post">
+<% if (request.getAttribute("error") != null) { %>
+<p style="color: red;"><%= request.getAttribute("error") %></p>
+<% } %>
+<form action="${pageContext.request.contextPath}/member/update?memberId=${member.memberId}" method="post">
     成员编号<input type="text" name="memberId" value="${member.memberId}" readonly /><br>
     成员名字<input type="text" name="name" value="${member.name}" /><br>
     小组ID：<input type="text" name="groupId" value="${member.groupId}" /><br>

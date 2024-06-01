@@ -1,12 +1,14 @@
 package com.alana.javaweb.service;
 
 import com.alana.javaweb.dao.GroupDao;
+import com.alana.javaweb.exception.BusinessException;
 import com.alana.javaweb.model.Group;
 
 import java.util.List;
 
 public class GroupService {
     private GroupDao groupDao = new GroupDao();
+
 
     public boolean addGroup(Group group) {
         return groupDao.insert(group) > 0;
@@ -18,6 +20,10 @@ public class GroupService {
     }
 
     public boolean deleteGroup(int groupId) {
+        MemberService memberService = new MemberService();
+        if(memberService.checkMemberExists(groupId)){
+            throw new BusinessException("小组内还有成员");
+        }
         return groupDao.delete(groupId) > 0;
     }
 
@@ -31,6 +37,10 @@ public class GroupService {
     }
     public List<Group> listGroups(){
         return groupDao.selectAll();
+    }
+
+    public boolean checkGroupExists(int groupId) {
+        return (groupDao.selectById(groupId) != null);  //不等于null→存在→直值
     }
 }
 

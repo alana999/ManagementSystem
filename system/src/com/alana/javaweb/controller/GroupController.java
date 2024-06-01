@@ -1,3 +1,4 @@
+import com.alana.javaweb.exception.BusinessException;
 import com.alana.javaweb.model.Group;
 import com.alana.javaweb.service.GroupService;
 import jakarta.servlet.annotation.WebServlet;
@@ -90,12 +91,17 @@ public class GroupController extends HttpServlet {
     private void deleteGroup(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         int groupId = Integer.parseInt(request.getParameter("groupId"));
 
-        if (groupService.deleteGroup(groupId)) {
-            response.sendRedirect(request.getContextPath()+"/group/list");
-        } else {
-            request.setAttribute("error", "删除小组失败");
-            request.getRequestDispatcher("groupManagement.jsp").forward(request, response);
+        try {
+            if (groupService.deleteGroup(groupId)) {
+                response.sendRedirect(request.getContextPath()+"/group/list");
+            }
+        } catch (BusinessException e) {
+            // 处理业务异常，显示错误信息
+            request.setAttribute("error", e.getMessage());
+            // 转发（不要重定向）
+            request.getRequestDispatcher("/group/list").forward(request, response);
         }
+
     }
 
     // 实现遍历小组列表逻辑

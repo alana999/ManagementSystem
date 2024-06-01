@@ -1,6 +1,7 @@
 package com.alana.javaweb.service;
 
 import com.alana.javaweb.dao.UserDao;
+import com.alana.javaweb.exception.BusinessException;
 import com.alana.javaweb.model.Group;
 import com.alana.javaweb.model.User;
 import com.alana.javaweb.utils.HashUtil;
@@ -8,6 +9,8 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+
+import java.sql.SQLException;
 
 public class AccountService {
     private UserDao userDao = new UserDao();
@@ -20,10 +23,17 @@ public class AccountService {
         return user;
     }
 
-    public void register(String username, String password) {
+    public boolean register(String username, String password) {
         String hashedPassword = HashUtil.hashPassword(password);
         User user = new User(username, hashedPassword);
-        userDao.insert(user);
+        try {
+            userDao.insert(user);
+            return true;
+        } catch (SQLException e) {
+            // 转换 SQLException 为 BusinessException
+            throw new BusinessException("Registration failed: " + e.getMessage());
+        }
+
     }
 
     public void exit(HttpServletRequest request, HttpServletResponse response) {

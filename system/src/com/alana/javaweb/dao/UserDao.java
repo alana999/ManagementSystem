@@ -13,19 +13,30 @@ public class UserDao {
     @param user 用户名
     @return 1 表示键入成功
     * */
-    public int insert(User user) {
+    public int insert(User user) throws SQLException{
         Connection conn = null;
         PreparedStatement ps =null;
         int count =0;
+
         try {
             conn = DButil.getConnection();
+//            检查用户名是否唯一，将数据库操作异常转换为更具体的业务逻辑异常
+            String checkSql = "SELECT COUNT(*) FROM User WHERE username = ?";
+            ps = conn.prepareStatement(checkSql);
+            ps.setString(1, user.getUsername());
+            ResultSet rs = ps.executeQuery();
+            if (rs.next() && rs.getInt(1) > 0) {
+                throw new SQLException("Username already exists.");
+            }
+            ps.close();
+
             String sql = "INSERT INTO User (username, password) VALUES(?,?)";
              ps = conn.prepareStatement(sql);
             ps.setString(1, user.getUsername());
             ps.setString(2, user.getPassword());
             count = ps.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw e;
         }finally {
             DButil.close(conn,ps,null);
         }

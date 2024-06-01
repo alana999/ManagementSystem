@@ -1,5 +1,6 @@
 package com.alana.javaweb.controller;
 
+import com.alana.javaweb.exception.BusinessException;
 import com.alana.javaweb.model.Group;
 import com.alana.javaweb.model.Member;
 import com.alana.javaweb.service.MemberService;
@@ -48,12 +49,17 @@ public class MemberController extends HttpServlet {
         Member member = new Member();
         member.setName(name);
         member.setGroupId(group_id);
-        if (memberService.addMember(member)) {
-            response.sendRedirect(request.getContextPath()+"/member/list");
-        } else {
-            request.setAttribute("error", "添加成员失败");
-            request.getRequestDispatcher("add.jsp").forward(request, response);
+        try {
+            if (memberService.addMember(member)) {
+                response.sendRedirect(request.getContextPath()+"/member/list");
+            }
+        } catch (BusinessException e) {
+            // 处理业务异常，显示错误信息,添加成员失败
+            request.setAttribute("error", e.getMessage());
+            // 转发（不要重定向）
+            request.getRequestDispatcher("/memberadd.jsp").forward(request, response);
         }
+
 
     }
 
@@ -78,15 +84,19 @@ public class MemberController extends HttpServlet {
         member.setGroupId(groupId);
 
 
-        if (memberService.updateMember(member)) {
-            response.sendRedirect(request.getContextPath()+"/member/list");
-        } else {
-            request.setAttribute("error", "更新失败");
-//            response.sendRedirect(request.getContextPath() + "/error.jsp");
-
-            request.getRequestDispatcher("memberEdit.jsp").forward(request, response);
-//            response.sendRedirect(request.getContextPath()+"/memberEdit.jsp");
+        try {
+            if (memberService.updateMember(member)) {
+                response.sendRedirect(request.getContextPath()+"/member/list");
+            }
+        } catch (BusinessException e) {
+            // 处理业务异常，显示错误信息,添加成员失败
+            request.setAttribute("error", e.getMessage());
+            request.setAttribute("member",member);
+            // 转发（不要重定向）→保存更新请求的内容
+            request.getRequestDispatcher("/memberEdit.jsp").forward(request, response);
         }
+
+
     }
 
     private void deleteMember(HttpServletRequest request, HttpServletResponse response) throws IOException {

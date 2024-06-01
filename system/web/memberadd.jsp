@@ -12,7 +12,11 @@
 </head>
 <body>
 <h1>添加新成员</h1>
-<form action="member/add" method="post">
+<% if (request.getAttribute("error") != null) { %>
+<p style="color: red;"><%= request.getAttribute("error") %></p>
+<% } %>
+
+<form action="${pageContext.request.contextPath}/member/add" method="post">
   <input type="hidden" name="action" value="add">
   成员名字：<input type="text" name="name" required><br>
   小组ID：<input type="number" name="group_id" required><br>

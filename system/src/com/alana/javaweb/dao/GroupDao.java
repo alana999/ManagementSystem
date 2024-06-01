@@ -24,6 +24,16 @@ public class GroupDao {
         int count = 0;
         try {
             conn = DButil.getConnection();
+
+
+            String checkSql = "SELECT COUNT(*) FROM ms_groups WHERE group_name = ?";
+            ps = conn.prepareStatement(checkSql);
+            ps.setString(1, group.getGroupName());
+            ResultSet rs = ps.executeQuery();
+            if (rs.next() && rs.getInt(1) > 0) {
+                throw new SQLException("Group name already exists.");
+            }
+
             String sql = "INSERT INTO ms_groups (group_name, description) VALUES(?, ?)";
             ps = conn.prepareStatement(sql);
             ps.setString(1, group.getGroupName());

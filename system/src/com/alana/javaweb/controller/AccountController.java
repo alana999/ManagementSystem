@@ -39,6 +39,13 @@ public class AccountController extends HttpServlet {
         User user = accountService.login(username, password);
         if (user != null) {
             req.getSession().setAttribute("user", user);
+
+            // 登录成功了，并且用户确实选择了“十天内免登录”功能。
+            String f = req.getParameter("f");
+            if("1".equals(f)){
+                accountService.LoginFree(req,resp,user);
+            }
+
             resp.sendRedirect("/sys/index.jsp");
         } else {
             req.setAttribute("error", "用户名或密码不正确");
@@ -110,5 +117,7 @@ public class AccountController extends HttpServlet {
         request.getRequestDispatcher("/userEdit.jsp").forward(request, response);
 
     }
+
+
 
 }

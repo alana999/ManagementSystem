@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,7 +8,10 @@
 <body>
 <div class="container">
     <h2>Login</h2>
-    <form action="account/login" method="post">
+    <% if (request.getAttribute("error") != null) { %>
+    <p style="color: red;"><%= request.getAttribute("error") %></p>
+    <% } %>
+    <form action="${pageContext.request.contextPath}/account/login" method="post">
         <div class="form-group">
             <label for="username">Username:</label>
             <input type="text" class="form-control" id="username" name="username">
@@ -16,6 +20,7 @@
             <label for="password">Password:</label>
             <input type="password" class="form-control" id="password" name="password">
         </div>
+        <input type="checkbox" name="f" value="1">十天内免登录<br>
         <button type="submit" class="btn btn-primary">Login</button>
     </form>
     <a href="register.jsp">Register</a>

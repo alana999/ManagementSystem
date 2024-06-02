@@ -1,5 +1,8 @@
+import com.alana.javaweb.model.User;
+import com.alana.javaweb.service.AccountService;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -22,7 +25,45 @@ public class LoginCheckFilter implements Filter {
         if (loggedIn || path.endsWith("login.jsp") || path.endsWith("register.jsp")||path.endsWith("register")||path.endsWith("login")) {
             chain.doFilter(request, response);
         } else {
-            ((HttpServletResponse) response).sendRedirect(req.getContextPath()+"/login.jsp");
+//            检查cookies
+            Cookie[] cookies = req.getCookies();
+            String username = null;
+            String password = null;
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    String name = cookie.getName();
+                    if("username".equals(name)){
+                        username = cookie.getValue();
+                    }else if("password".equals(name)){
+                        password = cookie.getValue();
+                    }
+                }
+
+                if(username != null && password != null){
+                    AccountService accountService = new AccountService();
+                    if( accountService.login(username, password)!=null){
+                        // 获取session
+                        session = req.getSession();
+
+                        User user = new User(username, password);
+                        session.setAttribute("user", user);
+
+                        // 正确，表示登录成功
+                        chain.doFilter(request, response);
+                    }else {
+                        ((HttpServletResponse) response).sendRedirect(req.getContextPath() + "/login.jsp");
+
+                    }
+                }
+                else {
+                    ((HttpServletResponse) response).sendRedirect(req.getContextPath() + "/login.jsp");
+
+                }
+            }else {
+                ((HttpServletResponse) response).sendRedirect(req.getContextPath() + "/login.jsp");
+            }
+
+
         }
     }
 }

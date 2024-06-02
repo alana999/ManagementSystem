@@ -74,5 +74,21 @@ public class AccountService {
         return userDao.update(user) > 0;
     }
 
+    public void LoginFree(HttpServletRequest request,HttpServletResponse response,User user){
+        // 创建Cookie对象存储登录名
+        Cookie cookie1 = new Cookie("username", user.getUsername());
+        // 创建Cookie对象存储密码
+        Cookie cookie2 = new Cookie("password", user.getPassword()); // 真实情况下是加密的。
+        // 设置cookie的有效期为十天
+        cookie1.setMaxAge(60 * 60 * 24 * 10);
+        cookie2.setMaxAge(60 * 60 * 24 * 10);
+        // 设置cookie的path（只要访问这个应用，浏览器就一定要携带这两个cookie）
+        cookie1.setPath(request.getContextPath());
+        cookie2.setPath(request.getContextPath());
+        // 响应cookie给浏览器
+        response.addCookie(cookie1);
+        response.addCookie(cookie2);
+    }
+
 }
 

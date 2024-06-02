@@ -7,7 +7,10 @@
 <body>
 <div class="container">
     <h2>Login</h2>
-    <form action="account/login" method="post">
+    <% if (request.getAttribute("error") != null) { %>
+    <p style="color: red;"><%= request.getAttribute("error") %></p>
+    <% } %>
+    <form action="${pageContext.request.contextPath}/account/login" method="post">
         <div class="form-group">
             <label for="username">Username:</label>
             <input type="text" class="form-control" id="username" name="username">

@@ -18,7 +18,7 @@ public class GroupDao {
      * @param group 小组对象
      * @return 插入的行数
      */
-    public int insert(Group group) {
+    public int insert(Group group) throws SQLException{
         Connection conn = null;
         PreparedStatement ps = null;
         int count = 0;
@@ -31,7 +31,7 @@ public class GroupDao {
             ps.setString(1, group.getGroupName());
             ResultSet rs = ps.executeQuery();
             if (rs.next() && rs.getInt(1) > 0) {
-                throw new SQLException("Group name already exists.");
+                throw new SQLException("队名已经存在.");
             }
 
             String sql = "INSERT INTO ms_groups (group_name, description) VALUES(?, ?)";
@@ -40,7 +40,7 @@ public class GroupDao {
             ps.setString(2, group.getDescription());
             count = ps.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw e;
         } finally {
             DButil.close(conn, ps, null);
         }

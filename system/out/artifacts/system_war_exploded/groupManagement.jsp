@@ -21,9 +21,12 @@
         团队名：<input type="text" name="groupName" required>
         <input type="submit" value="查询">
     </form>
-    <h1>团队列表</h1>
-    <a href="${pageContext.request.contextPath}/add.jsp">添加新团队</a>
 
+    <a href="${pageContext.request.contextPath}/add.jsp">添加新团队</a>
+    <h1>团队列表</h1>
+    <% if (request.getAttribute("error") != null) { %>
+    <p style="color: red;"><%= request.getAttribute("error") %></p>
+    <% } %>
     <table border="1" width="80%" align="center">
         <tr>
             <th>团队ID</th>

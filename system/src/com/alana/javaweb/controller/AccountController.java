@@ -41,8 +41,8 @@ public class AccountController extends HttpServlet {
             req.getSession().setAttribute("user", user);
             resp.sendRedirect("/sys/index.jsp");
         } else {
-            req.setAttribute("errorMessage", "Invalid login");
-            req.getRequestDispatcher("login.jsp").forward(req, resp);
+            req.setAttribute("error", "用户名或密码不正确");
+            req.getRequestDispatcher("/login.jsp").forward(req, resp);
         }
     }
 

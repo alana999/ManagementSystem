@@ -4,6 +4,7 @@ import com.alana.javaweb.dao.GroupDao;
 import com.alana.javaweb.exception.BusinessException;
 import com.alana.javaweb.model.Group;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class GroupService {
@@ -11,8 +12,15 @@ public class GroupService {
 
 
     public boolean addGroup(Group group) {
-        return groupDao.insert(group) > 0;
-        //groupDao.insert(group) > 0 表达式用于判断插入操作是否成功。如果插入成功，则返回 true；否则返回 false。
+
+        try {
+            return groupDao.insert(group) > 0;
+            //groupDao.insert(group) > 0 表达式用于判断插入操作是否成功。如果插入成功，则返回 true；否则返回 false。
+
+        } catch (SQLException e) {
+            // 转换 SQLException 为 BusinessException
+            throw new BusinessException(e.getMessage());
+        }
     }
 
     public boolean updateGroup(Group group) {

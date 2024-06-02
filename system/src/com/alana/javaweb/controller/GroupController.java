@@ -51,12 +51,19 @@ public class GroupController extends HttpServlet {
         group.setGroupName(groupName);
         group.setDescription(description);
 
-        if (groupService.addGroup(group)) {
-            response.sendRedirect(request.getContextPath()+"/group/list");
-        } else {
-            request.setAttribute("error", "添加小组失败");
-            request.getRequestDispatcher("add.jsp").forward(request, response);
+        try {
+            if (groupService.addGroup(group)) {
+                //成功添加就重定向到列表页
+                response.sendRedirect(request.getContextPath()+"/group/list");
+            }
+        } catch (BusinessException e) {
+            // 处理业务异常，显示错误信息
+            request.setAttribute("error", e.getMessage()+"添加小组失败");
+            // 转发（不要重定向）
+            request.getRequestDispatcher("/group/list").forward(request, response); // 重新展示列表页面
+
         }
+
 
     }
     // 实现修改小组逻辑
